@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html><body>
+
+<h2>Productos</h2>
+
+<ul>
+{% for p in productos %}
+    <li>{{ p.nombre }} - ${{ p.costo }} ({{ p.categoria }})</li>
+{% endfor %}
+</ul>
+
+{% if request.user.is_staff %}
+    <a href="{% url 'usuarios:crear_producto' %}">Crear producto</a>
+{% endif %}
+
