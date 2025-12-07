@@ -1,12 +1,24 @@
 <!DOCTYPE html>
-<html><body>
+<html lang="es">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'usuarios/styles.css' %}">
+    <meta charset="UTF-8">
+    <title>Realizar compra</title>
+</head>
+<body>
 
-<h2>Realizar compra</h2>
+<div class="container">
+    <h2>Realizar compra</h2>
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Comprar</button>
-</form>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Comprar</button>
+    </form>
 
-</body></html>
+    <a class="secondary" href="{% url 'usuarios:perfil' %}">Volver al perfil</a>
+</div>
+
+</body>
+</html>

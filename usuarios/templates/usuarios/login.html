@@ -1,20 +1,27 @@
 <!DOCTYPE html>
-<html lang="es">
-<head><meta charset="UTF-8"><title>Login</title></head>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'usuarios/styles.css' %}">
+</head>
 <body>
-<h2>Iniciar sesión</h2>
 
-{% if error %}
-<p style="color:red;">{{ error }}</p>
-{% endif %}
+<div class="container">
+    <h2>Iniciar sesión</h2>
 
-<form method="post">
-    {% csrf_token %}
-    <input type="text" name="username" placeholder="Usuario" required>
-    <input type="password" name="password" placeholder="Contraseña" required>
-    <button type="submit">Entrar</button>
-</form>
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
 
-<a href="{% url 'usuarios:registro' %}">Registrar cuenta</a>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Usuario">
+        <input type="password" name="password" placeholder="Contraseña">
+        <button type="submit">Entrar</button>
+    </form>
+
+    <a class="secondary" href="{% url 'usuarios:registro' %}">Registrar cuenta</a>
+</div>
+
 </body>
 </html>

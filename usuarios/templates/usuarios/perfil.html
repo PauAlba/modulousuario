@@ -1,20 +1,35 @@
 <!DOCTYPE html>
-<html><body>
-<h2>Bienvenida, {{ request.user.username }}</h2>
+<html lang="es">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'usuarios/styles.css' %}">
+    <meta charset="UTF-8">
+    <title>Perfil</title>
+</head>
+<body>
 
-<p><strong>Rol:</strong> {{ perfil.rol }}</p>
-<p><strong>Dirección:</strong> {{ perfil.direccion }}</p>
+<div class="container">
+    <h2>Bienvenido, {{ request.user.username }}</h2>
 
-<h3>Historial de compras</h3>
-<ul>
-{% for compra in compras %}
-    <li>{{ compra.producto.nombre }} - ${{ compra.total }} ({{ compra.fecha }})</li>
-{% empty %}
-    <li>No tienes compras registradas.</li>
-{% endfor %}
-</ul>
+    <p><strong>Rol:</strong> {{ perfil.rol }}</p>
+    <p><strong>Dirección:</strong> {{ perfil.direccion }}</p>
 
-<a href="{% url 'usuarios:comprar' %}">Realizar compra</a><br>
-<a href="{% url 'usuarios:logout' %}">Cerrar sesión</a>
+    <h3>Historial de compras</h3>
 
-</body></html>
+    <ul>
+        {% for compra in compras %}
+            <li>
+                {{ compra.producto.nombre }} - ${{ compra.total }}<br>
+                <small>{{ compra.fecha }}</small>
+            </li>
+        {% empty %}
+            <li>No tienes compras registradas.</li>
+        {% endfor %}
+    </ul>
+
+    <a class="secondary" href="{% url 'usuarios:comprar' %}">Realizar compra</a>
+    <a class="secondary" href="{% url 'usuarios:logout' %}">Cerrar sesión</a>
+</div>
+
+</body>
+</html>
