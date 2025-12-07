@@ -1,0 +1,94 @@
+# =========================
+#  General
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+
+# =========================
+#  Entorno virtual
+# =========================
+venv/
+env/
+ENV/
+.venv/
+.abstractos/
+# Ajusta si tu entorno se llama distinto:
+Scripts/
+abstractos/
+entornos/
+
+# =========================
+#  Django
+# =========================
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+static/
+temp/
+logs/
+
+# Avoid committing Django secret keys
+**/settings.py
+!**/settings_example.py
+
+# =========================
+#  Migrations
+# =========================
+**/migrations/
+!**/migrations/__init__.py
+
+# =========================
+#  OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+#  IDEs
+# =========================
+
+# VSCode
+.vscode/
+.history/
+
+# PyCharm / JetBrains
+.idea/
+*.iml
+
+# =========================
+#  Python packaging
+# =========================
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+
+# Wheel and pip cache
+*.egg
+pip-wheel-metadata/
+pip-log.txt
+__pypackages__/
+
+# =========================
+#  Node (por si usas herramientas front)
+# =========================
+node_modules/
+npm-debug.log
+yarn-error.log
