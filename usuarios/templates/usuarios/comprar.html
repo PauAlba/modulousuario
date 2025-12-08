@@ -22,6 +22,7 @@
 
 </body>
 </html> -->
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -32,75 +33,62 @@
 </head>
 <body>
 
-<div class="container">
+<<div class="container">
 
     <h2>Comprar productos</h2>
 
-    <!-- Filtros -->
-    <form method="get" class="filter-form">
-        <input 
-            type="text" 
-            name="search" 
-            placeholder="Buscar por nombre..." 
-            value="{{ search }}"
-        >
+    <div class="compras-layout">
 
-        <select name="categoria">
-            <option value="">Todas las categorías</option>
-            {% for cat in categorias %}
-                <option value="{{ cat }}" {% if categoria == cat %}selected{% endif %}>
-                    {{ cat }}
-                </option>
-            {% endfor %}
-        </select>
+        <!-- SIDEBAR -->
+        <aside class="sidebar-filtros">
+            <h3>Filtros</h3>
 
-        <button type="submit">Filtrar</button>
-    </form>
+            <form method="get" class="filter-form">
+                <input 
+                    type="text" 
+                    name="search" 
+                    placeholder="Buscar por nombre..." 
+                    value="{{ search }}"
+                >
 
-    <hr>
+                <select name="categoria">
+                    <option value="">Todas las categorías</option>
+                    {% for cat in categorias %}
+                        <option value="{{ cat }}" {% if categoria == cat %}selected{% endif %}>
+                            {{ cat }}
+                        </option>
+                    {% endfor %}
+                </select>
 
-    <!-- Lista de productos -->
-    <div class="productos-lista">
+                <button type="submit">Aplicar</button>
+            </form>
+        </aside>
 
-        {% for producto in productos %}
-            <div class="producto-card">
-                <h3>{{ producto.nombre }}</h3>
-
-                <p><strong>Categoría:</strong> {{ producto.categoria }}</p>
-
-                {% if producto.descripcion %}
+        <!-- LISTA DE PRODUCTOS -->
+        <div class="productos-lista">
+            {% for producto in productos %}
+                <div class="producto-card">
+                    <h3>{{ producto.nombre }}</h3>
+                    <p><strong>Categoría:</strong> {{ producto.categoria }}</p>
                     <p>{{ producto.descripcion }}</p>
-                {% endif %}
+                    <p><strong>Precio:</strong> ${{ producto.costo }}</p>
 
-                <p><strong>Precio:</strong> ${{ producto.costo }}</p>
+                    <form method="post" class="compra-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="producto_id" value="{{ producto.id }}">
+                        <input type="number" name="cantidad" value="1" min="1">
+                        <button type="submit">Comprar</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
 
-                <!-- Formulario para comprar -->
-                <form method="post" class="compra-form">
-                    {% csrf_token %}
-                    <input type="hidden" name="producto_id" value="{{ producto.id }}">
-
-                    <label>Cantidad:</label>
-                    <input 
-                        type="number" 
-                        name="cantidad" 
-                        value="1" 
-                        min="1" 
-                        required
-                    >
-
-                    <button type="submit">Comprar</button>
-                </form>
-            </div>
-
-        {% empty %}
-            <p>No se encontraron productos.</p>
-        {% endfor %}
     </div>
 
-    <br>
     <a class="secondary" href="{% url 'usuarios:perfil' %}">Volver al perfil</a>
 
 </div>
+
 
 </body>
 </html>

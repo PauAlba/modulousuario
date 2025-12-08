@@ -1,23 +1,27 @@
+/* ----------- BASE ----------- */
+
 body {
     font-family: "Inter", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
     background: #eef1f5;
     margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 0;
     color: #1e1e1e;
+    /* Quitamos el flex que rompía todo */
+    display: block;
+    height: auto;
 }
 
 .container {
-    background: #ffffff;
-    padding: 48px 50px;
-    border-radius: 18px;
     width: 100%;
-    max-width: 420px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px 30px;
+    background: #ffffff;
+    border-radius: 18px;
     box-shadow: 0 18px 45px rgba(0,0,0,0.08);
     border: 1px solid #e5e5e5;
     animation: fadeIn 0.4s ease;
+    box-sizing: border-box;
 }
 
 @keyframes fadeIn {
@@ -27,166 +31,139 @@ body {
 
 h2 {
     margin-bottom: 26px;
-    font-size: 26px;
+    font-size: 28px;
     font-weight: 700;
     color: #111;
     text-align: center;
 }
 
-h3 {
-    margin-top: 28px;
-    margin-bottom: 14px;
-    font-size: 20px;
-    font-weight: 600;
-    color: #1f2937;
+/* ----------- LAYOUT PARA FILTROS + LISTA ----------- */
+
+.compras-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 30px;
 }
+
+@media (max-width: 800px) {
+    .compras-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ----------- SIDEBAR DE FILTROS ----------- */
+
+.sidebar-filtros {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 20px;
+    border-radius: 14px;
+}
+
+.sidebar-filtros h3 {
+    margin-top: 0;
+}
+
+.filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.filter-form input,
+.filter-form select {
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #d0d0d0;
+    background: #ffffff;
+    font-size: 15px;
+}
+
+/* Botón filtros */
+.filter-form button {
+    padding: 12px;
+    background: linear-gradient(180deg, #007AFF, #0066CC);
+    color: #fff;
+    border-radius: 10px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+/* ----------- LISTA DE PRODUCTOS ----------- */
+
+.productos-lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 22px;
+}
+
+.producto-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 2px 3px 6px rgba(0,0,0,0.04);
+    transition: 0.2s ease;
+}
+
+.producto-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 4px 6px 14px rgba(0,0,0,0.08);
+}
+
+/* ----------- FORMULARIO DE COMPRA ----------- */
+
+.compra-form {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.compra-form input[type="number"] {
+    width: 70px;
+    padding: 8px;
+    border-radius: 10px;
+    border: 1px solid #d0d0d0;
+}
+
+.compra-form button {
+    padding: 10px 14px;
+    background: linear-gradient(180deg, #22c55e, #16a34a);
+    border: none;
+    color: white;
+    font-weight: 600;
+    border-radius: 10px;
+}
+
+.compra-form button:hover {
+    filter: brightness(1.1);
+}
+
+/* ----------- LINKS ----------- */
+
+.secondary {
+    display: block;
+    margin-top: 25px;
+    text-align: center;
+    color: #007aff;
+    font-size: 15px;
+}
+
+.secondary:hover {
+    opacity: 0.7;
+}
+
+/* ----------- TIPOGRAFÍA GENERAL ----------- */
 
 p, li, a {
     font-size: 15px;
     line-height: 1.55;
 }
 
-a {
-    color: #007aff;
-    text-decoration: none;
-    font-weight: 500;
-}
-
-a:hover {
-    opacity: 0.75;
-}
-
-.secondary {
-    display: block;
-    margin-top: 14px;
-    text-align: center;
-    color: #007aff;
-    font-size: 14px;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-
-form p {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin: 0;
-}
-
 label {
-    font-size: 13px;
-    font-weight: 500;
-    color: #3a3a3c;
-}
-
-input, select, textarea {
-    width: 100%;
-    padding: 12px 14px;
-    border-radius: 10px;
-    border: 1px solid #d0d0d0;
-    background: #fdfdfd;
-    font-size: 15px;
-    transition: all 0.15s ease;
-    box-sizing: border-box;
-}
-
-input:hover, select:hover, textarea:hover {
-    background: #fafafa;
-}
-
-input:focus, select:focus, textarea:focus {
-    border-color: #006CFF;
-    box-shadow: 0 0 0 3px rgba(0,108,255,0.18);
-    outline: none;
-    background: #ffffff;
-}
-
-button {
-    padding: 12px 14px;
-    border-radius: 10px;
-    background: linear-gradient(180deg, #007AFF, #0066CC);
-    border: none;
-    color: white;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
-    cursor: pointer;
-    transition: 0.15s ease;
-}
-
-button:hover {
-    filter: brightness(1.1);
-}
-
-button:active {
-    transform: scale(0.98);
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-ul li {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    padding: 14px;
-    border-radius: 12px;
-    font-size: 15px;
-}
-
-.error {
-    color: #dc2626;
-    background: #fee2e2;
-    border: 1px solid #fecaca;
-    padding: 10px 12px;
-    border-radius: 10px;
-    font-size: 14px;
-}
-
-.success {
-    color: #15803d;
-    background: #dcfce7;
-    border: 1px solid #bbf7d0;
-    padding: 10px 12px;
-    border-radius: 10px;
-    font-size: 14px;
-}
-
-.productos-lista {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-}
-
-.producto-card {
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
-
-.filter-form {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-
-.compra-form {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.compra-form input[type="number"] {
-    width: 70px;
-    padding: 5px;
+    color: #3a3a3c;
 }
