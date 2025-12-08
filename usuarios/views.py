@@ -94,20 +94,59 @@ def crear_producto_view(request):
 
 # COMPRAR
 
+# @login_required
+# def comprar_view(request):
+#     if request.method == "POST":
+#         form = CompraForm(request.POST)
+#         if form.is_valid():
+#             compra = form.save(commit=False)
+#             compra.usuario = request.user
+#             compra.precio_unitario = compra.producto.costo
+#             compra.save()
+#             return redirect('usuarios:perfil')
+#     else:
+#         form = CompraForm()
+
+#     return render(request, 'usuarios/comprar.html', {'form': form})
+
 @login_required
 def comprar_view(request):
-    if request.method == "POST":
-        form = CompraForm(request.POST)
-        if form.is_valid():
-            compra = form.save(commit=False)
-            compra.usuario = request.user
-            compra.precio_unitario = compra.producto.costo
-            compra.save()
-            return redirect('usuarios:perfil')
-    else:
-        form = CompraForm()
+    # Filtros
+    search = request.GET.get("search", "")
+    categoria = request.GET.get("categoria", "")
 
-    return render(request, 'usuarios/comprar.html', {'form': form})
+    productos = Producto.objects.filter(activo=True)
+
+    if search:
+        productos = productos.filter(nombre__icontains=search)
+
+    if categoria:
+        productos = productos.filter(categoria__icontains=categoria)
+
+    # Si el usuario presiona "Comprar"
+    if request.method == "POST":
+        producto_id = request.POST.get("producto_id")
+        producto = Producto.objects.get(id=producto_id)
+
+        compra = Compra(
+            usuario=request.user,
+            producto=producto,
+            cantidad=1,
+            precio_unitario=producto.costo,
+            total=producto.costo
+        )
+        compra.save()
+        return redirect("usuarios:perfil")
+
+    # Obtener categorías únicas
+    categorias = Producto.objects.values_list("categoria", flat=True).distinct()
+
+    return render(request, "usuarios/comprar.html", {
+        "productos": productos,
+        "categorias": categorias,
+        "search": search,
+        "categoria": categoria
+    })
 
 
 @login_required

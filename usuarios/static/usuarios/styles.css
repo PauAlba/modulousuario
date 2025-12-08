@@ -159,3 +159,21 @@ ul li {
     border-radius: 10px;
     font-size: 14px;
 }
+
+.productos-lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.producto-card {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.filter-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
