@@ -85,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'tienda_db',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
@@ -135,3 +135,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# A dónde ir después de iniciar sesión (Usa el nombre de tu ruta en urls.py)
+LOGIN_REDIRECT_URL = 'usuarios:perfil'
+
+# A dónde ir después de cerrar sesión
+LOGOUT_REDIRECT_URL = 'usuarios:login'
