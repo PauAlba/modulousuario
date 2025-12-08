@@ -2,13 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .forms import RegistroForm, PerfilForm, CompraForm, ProductoForm
+from .forms import EditarPerfilForm, RegistroForm, PerfilForm, CompraForm, ProductoForm
 from .models import PerfilUsuario, Producto, Compra
 
 
-# ---------------------------
 # LOGIN
-# ---------------------------
+
 def login_view(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -25,17 +24,17 @@ def login_view(request):
     return render(request, 'usuarios/login.html')
 
 
-# ---------------------------
+
 # LOGOUT
-# ---------------------------
+
 def logout_view(request):
     logout(request)
     return redirect('usuarios:login')
 
 
-# ---------------------------
+
 # REGISTRO
-# ---------------------------
+
 def registro_view(request):
     if request.method == "POST":
         form = RegistroForm(request.POST)
@@ -57,9 +56,9 @@ def registro_view(request):
     return render(request, 'usuarios/registro.html', {'form': form})
 
 
-# ---------------------------
+
 # PERFIL
-# ---------------------------
+
 @login_required
 def perfil_view(request):
     perfil = request.user.perfil
@@ -67,9 +66,9 @@ def perfil_view(request):
     return render(request, 'usuarios/perfil.html', {'perfil': perfil, 'compras': compras})
 
 
-# ---------------------------
+
 # PRODUCTOS
-# ---------------------------
+
 @login_required
 def productos_view(request):
     productos = Producto.objects.all()
@@ -93,9 +92,8 @@ def crear_producto_view(request):
     return render(request, 'usuarios/crear_producto.html', {'form': form})
 
 
-# ---------------------------
 # COMPRAR
-# ---------------------------
+
 @login_required
 def comprar_view(request):
     if request.method == "POST":
@@ -110,3 +108,21 @@ def comprar_view(request):
         form = CompraForm()
 
     return render(request, 'usuarios/comprar.html', {'form': form})
+
+
+@login_required
+def editar_perfil(request):
+    perfil = PerfilUsuario.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = EditarPerfilForm(request.POST, instance=perfil, user=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('usuarios:perfil')
+
+    else:
+        form = EditarPerfilForm(instance=perfil, user=request.user)
+
+    return render(request, 'usuarios/editar_perfil.html', {
+        'form': form
+    })
