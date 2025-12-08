@@ -177,3 +177,16 @@ ul li {
     gap: 10px;
     margin-bottom: 20px;
 }
+
+
+.compra-form {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.compra-form input[type="number"] {
+    width: 70px;
+    padding: 5px;
+}

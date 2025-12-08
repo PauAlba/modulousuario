@@ -123,22 +123,24 @@ def comprar_view(request):
     if categoria:
         productos = productos.filter(categoria__icontains=categoria)
 
-    # Si el usuario presiona "Comprar"
+    # Procesar compra
     if request.method == "POST":
         producto_id = request.POST.get("producto_id")
+        cantidad = int(request.POST.get("cantidad", 1))
+
         producto = Producto.objects.get(id=producto_id)
 
         compra = Compra(
             usuario=request.user,
             producto=producto,
-            cantidad=1,
+            cantidad=cantidad,
             precio_unitario=producto.costo,
-            total=producto.costo
+            total=producto.costo * cantidad
         )
         compra.save()
         return redirect("usuarios:perfil")
 
-    # Obtener categorías únicas
+    # Categorías disponibles
     categorias = Producto.objects.values_list("categoria", flat=True).distinct()
 
     return render(request, "usuarios/comprar.html", {
@@ -147,6 +149,7 @@ def comprar_view(request):
         "search": search,
         "categoria": categoria
     })
+
 
 
 @login_required
