@@ -31,13 +31,12 @@ entornos/
 db.sqlite3
 media/
 staticfiles/
-static/
 temp/
 logs/
 
 # Avoid committing Django secret keys
-**/settings.py
-!**/settings_example.py
+# **/settings.py
+# !**/settings_example.py
 
 # =========================
 #  Migrations
