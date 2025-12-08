@@ -85,7 +85,7 @@ class ModificarUsuarioTestCase(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "ya existe este correo")
-        self.assertEqual(self.usuario1.correo, 'javier@correo.com')
+        self.assertEqual(self.usuario2.correo, 'edgar@correo.com')
 
 #PRUEBAS C = Eliminación de Usuario
 class EliminarUsuarioTestCase(TestCase):
@@ -257,42 +257,58 @@ class AgregarProductoTestCase(TestCase):
 class RealizarCompraTestCase(TestCase):
 
     def setUp(self):
-        self.usuario = User.objects.create_user(username='frida', password='1234')
         self.producto = Producto.objects.create(
-            nombre='Juego de mesa', precio=300, stock=10
+            nombre="Café",
+            precio=50,
+            stock=10
         )
+        self.url_compra = reverse('realizar_compra', args=[self.producto.id])
 
-    def test_compra_exitosamente(self):
-        self.client.login(username='frida', password='1234')
-
-        response = self.client.post(reverse('realizar_compra', args=[self.producto.id]), {
-            'cantidad': 2
+    def test_compra_exitosa(self):
+        response = self.client.post(self.url_compra, {
+            'cantidad': 3
         })
 
         self.producto.refresh_from_db()
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(self.producto.stock, 8)  
-        self.assertTrue(Compra.objects.filter(usuario=self.usuario, producto=self.producto).exists())
+        self.assertEqual(self.producto.stock, 7)  
+        self.assertTrue(Compra.objects.filter(producto=self.producto, cantidad=3).exists())
 
     def test_compra_stock_insuficiente(self):
-        self.client.login(username='frida', password='1234')
-
-        response = self.client.post(reverse('realizar_compra', args=[self.producto.id]), {
-            'cantidad': 20
+        response = self.client.post(self.url_compra, {
+            'cantidad': 20  
         })
 
         self.producto.refresh_from_db()
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Stock insuficiente")
-        self.assertEqual(self.producto.stock, 10) 
-        self.assertFalse(Compra.objects.exists())
+        self.assertEqual(self.producto.stock, 10)  
+        self.assertEqual(Compra.objects.count(), 0)
 
-    def test_compra_sin_login(self):
-        response = self.client.post(reverse('realizar_compra', args=[self.producto.id]), {
+    def test_compra_cantidad_invalida(self):
+        response = self.client.post(self.url_compra, {
+            'cantidad': 0
+        })
+
+        self.producto.refresh_from_db()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Cantidad no válida")
+        self.assertEqual(self.producto.stock, 10)
+        self.assertEqual(Compra.objects.count(), 0)
+
+    def test_crea_registro_compra(self):
+        response = self.client.post(self.url_compra, {
             'cantidad': 1
         })
 
-        self.assertNotEqual(response.status_code, 200)
-        self.assertFalse(Compra.objects.exists())
+        self.assertEqual(response.status_code, 302)
+        compra = Compra.objects.first()
+
+        self.assertIsNotNone(compra)
+        self.assertEqual(compra.producto, self.producto)
+        self.assertEqual(compra.cantidad, 1)
+
+
