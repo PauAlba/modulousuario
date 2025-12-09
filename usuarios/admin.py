@@ -13,6 +13,6 @@ class ProductoAdmin(admin.ModelAdmin):
 
 @admin.register(Compra)
 class CompraAdmin(admin.ModelAdmin):
-    list_display = ('usuario', 'producto', 'cantidad', 'precio_unitario', 'total', 'fecha')
+    list_display = ('usuario', 'producto', 'cantidad', 'fecha')
     list_filter = ('fecha', 'producto')
     search_fields = ('usuario__username', 'producto__nombre')
